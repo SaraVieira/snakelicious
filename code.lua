@@ -9,15 +9,13 @@ trail_amount = 2
 line_color = 1
 
 
-function _init()
+function _restart()
     effects = {}
     intensity = 0
     shake_control = 5
-    cartdata("snakeit")
-    current_high_score = dget(0)
     game_over = false
     apples = {}
-    for i = 1, 25 do
+    for i = 1, 2 do
         add(apples, make_apple())
     end
     snake = {
@@ -107,6 +105,12 @@ function _init()
     }
 end
 
+function _init()
+    cartdata("snakeit")
+    current_high_score = dget(0)
+    _restart()
+end
+
 function _draw()
     cls()
 
@@ -114,18 +118,28 @@ function _draw()
 
     line(0, 0, 126, 0, line_color)
     line(0, 0, 0, 126, line_color)
-    line(126, 0, 126, 126, line_color)
-    line(0, 126, 126, 126, line_color)
+    line(127, 0, 127, 127, line_color)
+    line(0, 127, 127, 127, line_color)
     -- dset(0, 0)
 
     if (game_over) then
+        map(0)
         if current_high_score < #snake.body then
             dset(0, #snake.body)
             print("New high score", 20, 20, 7)
             print(#snake.body)
         else
-            print(#snake.body, 20, 20, 7)
-            print("Your high score is " .. current_high_score)
+            local label1 = "score: " .. #snake.body
+            local label2 = "your high score is " .. current_high_score
+            print(label2, hcenter(label2), vcenter(label2), 7)
+            print(label1, hcenter(label1), vcenter(label1) - 12, 7)
+        end
+        textlabel = "press ❎  to restart"
+        wavey_wavey(textlabel, 30, 6, 115)
+
+
+        if btn(❎) then
+            _restart()
         end
     else
         draw_fx()

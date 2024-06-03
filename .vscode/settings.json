@@ -22,7 +22,9 @@
     "line",
     "cartdata",
     "dset",
-    "dget"
+    "dget",
+    "sin",
+    "sub"
   ],
   "Lua.runtime.unicodeName": true,
   "Lua.diagnostics.disable": ["lowercase-global"]
