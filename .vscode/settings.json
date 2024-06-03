@@ -1,0 +1,29 @@
+{
+  "Lua.diagnostics.globals": [
+    "camera",
+    "btn",
+    "cls",
+    "all",
+    "rectfill",
+    "add",
+    "del",
+    "sfx",
+    "ceil",
+    "⬇️",
+    "⬆️",
+    "➡️",
+    "⬅️",
+    "❎",
+    "🅾️",
+    "flr",
+    "rnd",
+    "circfill",
+    "pset",
+    "line",
+    "cartdata",
+    "dset",
+    "dget"
+  ],
+  "Lua.runtime.unicodeName": true,
+  "Lua.diagnostics.disable": ["lowercase-global"]
+}
