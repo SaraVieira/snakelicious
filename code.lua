@@ -13,7 +13,7 @@ function _restart()
     effects = {}
     intensity = 0
     shake_control = 5
-    game_over = false
+
     apples = {}
     for i = 1, 2 do
         add(apples, make_apple())
@@ -106,6 +106,7 @@ function _restart()
 end
 
 function _init()
+    current_state = "menu"
     cartdata("snakeit")
     current_high_score = dget(0)
     _restart()
@@ -114,15 +115,34 @@ end
 function _draw()
     cls()
 
-    -- lines
+    if current_state == "menu" then
+        map(0)
+        textlabel = "press ❎  to start"
+        wavey_wavey(textlabel, 30, 6, 113)
 
-    line(0, 0, 126, 0, line_color)
-    line(0, 0, 0, 126, line_color)
-    line(127, 0, 127, 127, line_color)
-    line(0, 127, 127, 127, line_color)
-    -- dset(0, 0)
+        if btn(❎) then
+            current_state = "game"
+        end
+    end
 
-    if (game_over) then
+
+    if current_state == "game" then
+        -- lines
+        line(0, 0, 126, 0, line_color)
+        line(0, 0, 0, 126, line_color)
+        line(127, 0, 127, 127, line_color)
+        line(0, 127, 127, 127, line_color)
+
+        draw_fx()
+        print(#snake.body, 5, 5, 7)
+
+        snake:draw()
+        for apple in all(apples) do
+            apple:draw()
+        end
+    end
+
+    if (current_state == "game_over") then
         map(0)
         if current_high_score < #snake.body then
             dset(0, #snake.body)
@@ -135,19 +155,12 @@ function _draw()
             print(label1, hcenter(label1), vcenter(label1) - 12, 7)
         end
         textlabel = "press ❎  to restart"
-        wavey_wavey(textlabel, 30, 6, 115)
+        wavey_wavey(textlabel, 30, 6, 113)
 
 
         if btn(❎) then
+            current_state = "game"
             _restart()
-        end
-    else
-        draw_fx()
-        print(#snake.body, 5, 5, 7)
-
-        snake:draw()
-        for apple in all(apples) do
-            apple:draw()
         end
     end
 end

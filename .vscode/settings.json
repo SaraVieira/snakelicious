@@ -24,7 +24,8 @@
     "dset",
     "dget",
     "sin",
-    "sub"
+    "sub",
+    "map"
   ],
   "Lua.runtime.unicodeName": true,
   "Lua.diagnostics.disable": ["lowercase-global"]
