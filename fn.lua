@@ -32,3 +32,42 @@ function wavey_wavey(text, speed, height, y)
             y + sin((tim + i) / speed) * height, colors[current_color])
     end
 end
+
+function dither(xc, yc, value)
+    local ox = xc % 3
+    local oy = yc % 3
+    if value > 0.9 then
+        return 1
+    elseif value > 0.75 then
+        if (ox == 1 and oy == 1) then
+            return 0
+        end
+        return 1
+    elseif value > 0.6 then
+        if (ox == oy or abs(ox - oy) == 1) then
+            return 1
+        end
+        return 0
+    elseif value > 0.45 then
+        if (ox == oy) then
+            return 0
+        end
+        return 1
+    elseif value > 0.3 then
+        if (ox == oy) then
+            return 1
+        end
+        return 0
+    elseif value > 0.15 then
+        if (ox == oy or abs(ox - oy) == 1) then
+            return 0
+        end
+        return 1
+    elseif value > 0 then
+        if (ox == 1 and oy == 1) then
+            return 1
+        end
+        return 0
+    end
+    return 0
+end

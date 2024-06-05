@@ -22,23 +22,33 @@ function _update()
 
         snake.prev_x = snake.x
         snake.prev_y = snake.y
+        local check_y_collision = snake.dy == 0 or (#snake.body == 0)
+        local check_x_collision = snake.dx == 0 or (#snake.body == 0)
         if btn(⬇️) then
-            snake.dx = 0
-            snake.dy = 1
+            if check_y_collision then
+                snake.dx = 0
+                snake.dy = 1
+            end
         end
         if btn(⬆️) then
-            snake.dx = 0
-            snake.dy = -1
+            if check_y_collision then
+                snake.dx = 0
+                snake.dy = -1
+            end
         end
 
         if btn(➡️) then
-            snake.dx = 1
-            snake.dy = 0
+            if check_x_collision then
+                snake.dx = 1
+                snake.dy = 0
+            end
         end
 
         if btn(⬅️) then
-            snake.dx = -1
-            snake.dy = 0
+            if check_x_collision then
+                snake.dx = -1
+                snake.dy = 0
+            end
         end
 
         snake:update()

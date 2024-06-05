@@ -7,6 +7,9 @@ trail_width = 1.5
 trail_colors = { 12, 13, 1 }
 trail_amount = 2
 line_color = 1
+current_clip_x = 0
+game_name = "snakelicious"
+
 
 
 function _restart()
@@ -38,9 +41,9 @@ function _restart()
 
             for part in all(self.body) do
                 rectfill(
-                    part.x * grid_size,
-                    part.y * grid_size,
-                    (part.x + 1) * grid_size - 1,
+                    (part.x * grid_size),
+                    (part.y * grid_size),
+                    ((part.x + 1) * grid_size - 1),
                     (part.y + 1) * grid_size - 1,
                     snake.clr
                 )
@@ -65,9 +68,28 @@ function _restart()
             for part in all(self.body) do
                 local orig_y = part.y
                 local orig_x = part.x
+                -- local n = .9;
 
                 part.x = snake.prev_x
                 part.y = snake.prev_y
+
+                -- if snake.dx == 1 then
+                --     part.x = snake.prev_x - n
+                -- elseif snake.dx == -1 then
+                --     part.x = snake.prev_x + n
+                -- else
+                --     part.x = snake.prev_x
+                -- end
+
+                -- if snake.dy == 1 then
+                --     part.y = snake.prev_y - n
+                -- elseif snake.dy == -1 then
+                --     part.y = snake.prev_y + n
+                -- else
+                --     part.y = snake.prev_y
+                -- end
+
+
 
 
                 snake.prev_x = orig_x
@@ -76,7 +98,13 @@ function _restart()
 
             ate_apple = false
             for apple in all(apples) do
-                if (apple.y == flr(snake.y) and apple.x == flr(snake.x)) or (apple.y == ceil(snake.y) and apple.x == ceil(snake.x)) then
+                if (
+                        (flr(apple.y) or ceil(apple.Y)) == (flr(snake.y) or ceil(snake.Y))
+                        and
+                        (flr(apple.x) or ceil(apple.x)) == (flr(snake.x) or ceil(snake.x))
+                    )
+
+                then
                     del(apples, apple)
                     add(apples, make_apple())
                     ate_apple = true
@@ -107,7 +135,7 @@ end
 
 function _init()
     current_state = "menu"
-    cartdata("snakeit")
+    cartdata(game_name)
     current_high_score = dget(0)
     _restart()
 end
@@ -116,51 +144,15 @@ function _draw()
     cls()
 
     if current_state == "menu" then
-        map(0)
-        textlabel = "press ❎  to start"
-        wavey_wavey(textlabel, 30, 6, 113)
-
-        if btn(❎) then
-            current_state = "game"
-        end
+        _draw_menu()
     end
 
 
     if current_state == "game" then
-        -- lines
-        line(0, 0, 126, 0, line_color)
-        line(0, 0, 0, 126, line_color)
-        line(127, 0, 127, 127, line_color)
-        line(0, 127, 127, 127, line_color)
-
-        draw_fx()
-        print(#snake.body, 5, 5, 7)
-
-        snake:draw()
-        for apple in all(apples) do
-            apple:draw()
-        end
+        _draw_game()
     end
 
     if (current_state == "game_over") then
-        map(0)
-        if current_high_score < #snake.body then
-            dset(0, #snake.body)
-            print("New high score", 20, 20, 7)
-            print(#snake.body)
-        else
-            local label1 = "score: " .. #snake.body
-            local label2 = "your high score is " .. current_high_score
-            print(label2, hcenter(label2), vcenter(label2), 7)
-            print(label1, hcenter(label1), vcenter(label1) - 12, 7)
-        end
-        textlabel = "press ❎  to restart"
-        wavey_wavey(textlabel, 30, 6, 113)
-
-
-        if btn(❎) then
-            current_state = "game"
-            _restart()
-        end
+        _draw_game_over()
     end
 end
