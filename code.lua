@@ -31,23 +31,7 @@ function _restart()
         prev_y = 0,
         body = {},
         draw = function(self)
-            rectfill(
-                self.x * grid_size,
-                self.y * grid_size,
-                (self.x + 1) * grid_size - 1,
-                (self.y + 1) * grid_size - 1,
-                snake.clr
-            )
-
-            for part in all(self.body) do
-                rectfill(
-                    (part.x * grid_size),
-                    (part.y * grid_size),
-                    ((part.x + 1) * grid_size - 1),
-                    (part.y + 1) * grid_size - 1,
-                    snake.clr
-                )
-            end
+            draw_snake(self)
         end,
         update = function(self)
             snake.x = snake.x + (snake.dx / refresh_rate)

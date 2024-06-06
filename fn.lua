@@ -71,3 +71,42 @@ function dither(xc, yc, value)
     end
     return 0
 end
+
+function rrectfill(x0, y0, x1, y1, col, corners)
+    local tl = corners and corners.tl
+    local tr = corners and corners.tr
+    local bl = corners and corners.bl
+    local br = corners and corners.br
+
+    local new_x0 = x0 + max(tl, bl)
+    local new_y0 = y0 + max(tl, tr)
+    local new_x1 = x1 - max(tr, br)
+    local new_y1 = y1 - max(bl, br)
+
+    rectfill(new_x0, new_y0, new_x1, new_y1, col)
+
+    if tl and tl > 0 then
+        circfill(new_x0, new_y0, tl, col)
+    end
+    if tr and tr > 0 then
+        circfill(new_x1, new_y0, tr, col)
+    end
+    if bl and bl > 0 then
+        circfill(new_x0, new_y1, bl, col)
+    end
+    if br and br > 0 then
+        circfill(new_x1, new_y1, br, col)
+    end
+
+    -- draw top rect
+    rectfill(new_x0, y0, new_x1, new_y0, col)
+
+    -- draw left rect
+    rectfill(x0, new_y0, new_x0, new_y1, col)
+
+    -- draw right rect
+    rectfill(new_x1, new_y0, x1, new_y1, col)
+
+    -- draw bottom rect
+    rectfill(new_x0, new_y1, new_x1, y1, col)
+end

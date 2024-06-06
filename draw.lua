@@ -53,3 +53,54 @@ function _draw_game_over()
         _restart()
     end
 end
+
+function draw_snake(self)
+    rrectfill(self.x * grid_size,
+        self.y * grid_size,
+        (self.x + 1) * grid_size - 1,
+        (self.y + 1) * grid_size - 1,
+        snake.clr, {
+            tl = 1,
+            bl = 1,
+            tr = 1,
+            br = 1
+        })
+
+
+    for part in all(self.body) do
+        function draw_part(r)
+            if r then
+                rrectfill(
+                    (part.x * grid_size),
+                    (part.y * grid_size),
+                    ((part.x + 1) * grid_size - 1),
+                    (part.y + 1) * grid_size - 1,
+                    snake.clr, {
+                        tl = 1,
+                        bl = 1,
+                        tr = 1,
+                        br = 1
+                    }
+                )
+            else
+                rectfill(
+                    (part.x * grid_size),
+                    (part.y * grid_size),
+                    ((part.x + 1) * grid_size - 1),
+                    (part.y + 1) * grid_size - 1,
+                    snake.clr
+                )
+            end
+        end
+
+        if #self.body > 2 then
+            if part == self.body[#self.body] then
+                draw_part(true)
+            else
+                draw_part(false)
+            end
+        else
+            draw_part(false)
+        end
+    end
+end
