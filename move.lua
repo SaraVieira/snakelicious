@@ -8,12 +8,16 @@ function _update()
             ceil(snake.y) == 0 or
             ceil(snake.y) == 32 then
             current_state = "game_over"
+            music(-1)
+            sfx(1)
         end
 
         -- game over on touch itself
         for part in all(snake.body) do
             if part.x == snake.x and snake.y == part.y then
                 current_state = "game_over"
+                music(-1)
+                sfx(1)
             end
         end
 

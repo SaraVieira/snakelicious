@@ -16,6 +16,7 @@ function _restart()
     effects = {}
     intensity = 0
     shake_control = 5
+    music(0)
 
     apples = {}
     for i = 1, 2 do
